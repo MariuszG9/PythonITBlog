@@ -1,0 +1,13 @@
+# zaimportowanie biblioteki
+import pandas as pd
+
+# seria danych zawierająca kilka liczb całkowitych, przykładowo kategorię mglistości (1-l, 7-h)
+series_fog_level = pd.Series([1, 2, 4, 4, 7, 2, 1])
+
+# ramka danych, wczytanie danych z pliku płaskiego CSV
+data_frame = pd.read_csv("weather_data.csv")
+
+# print danych z serii i z ramki danych
+print(type(series_fog_level))
+print(type(data_frame))
+print(type(data_frame["temperature"]))

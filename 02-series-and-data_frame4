@@ -1,0 +1,84 @@
+# zaimportowanie biblioteki
+import pandas as pd
+
+# wyświetlenie większej ilości kolumn
+desired_width = 350
+pd.set_option('display.width', desired_width)
+pd.set_option('display.max_columns', 15)
+
+# tworzymy słownik list
+slownik_zwierzat = {'Gatunek': ['Ssaki',
+                                'Ptaki',
+                                'Płazy',
+                                'Gady',
+                                'Ryby',
+                                'Stawonogi'
+                              ],
+                  'Zwierze': ['Tygrys',
+                              'Tukan',
+                              'Żaba',
+                              'Jaszczurka',
+                              'Rekin'
+                             ]
+                 }
+
+zwierzeta = pd.DataFrame(slownik_zwierzat,
+                         index=['SS', 'PT', 'PL', 'GA', 'RY'],
+                         columns=['Gatunek', 'Srodowisko', 'Zwierze'])
+
+print(f'{zwierzeta}\n')
+
+# 1. Dodanie kolumny korzystając z Listy
+env_value = ['LWP', 'LWP', 'WL', 'L', 'W']
+zwierzeta['Srodowisko'] = env_value
+
+print(f'Wypisano data frame o nazwie zwierzęta + kolumna z listy \n {zwierzeta} \n')
+
+
+# 2. Dodanie kolumny korzystając z Pandas Series
+body_heat = pd.Series(['stałocieplne', 'stałocieplne', 'zmiennocieplne', 'zmiennocieplne', 'zmiennocieplne'])
+zwierzeta['Cieplota ciala'] = body_heat.values
+
+print(f'Wypisano data frame o nazwie zwierzęta + Pandas Series \n {zwierzeta} \n')
+
+# 2b. Dodanie kolumny korzystając z Pandas Series z index
+# zwierzeta['Cieplota i'] = pd.Series(['zmienno', 'stało', 'zmienno', 'zmienno', 'stało']
+#                                  , index=['RY', 'PT', 'PL', 'GA', 'SS'])
+
+# print(f'Wypisano data frame o nazwie zwierzęta + Pandas series2 \n {zwierzeta} \n')
+
+
+# 3. Dodanie kolumny korzystając z insert
+animal_rating = pd.Series([12, 125, 14, 28, 53], index=[0, 1, 2, 3, 4])
+zwierzeta.insert(4, "Rating", animal_rating.values, False)
+
+print(f'Wypisano data frame o nazwie zwierzęta + insert \n {zwierzeta} \n')
+
+# 3b. Dodanie kolumny korzystając z insert i próbą wgrania po index (niepoprawnych)
+# zwierzeta.insert(4, "Ratingx", pd.Series(animal_rating, index=[0, 1, 2, 3, 4]), False)
+
+# print(f'Wypisano data frame o nazwie zwierzęta + insert2 \n {zwierzeta} \n')
+
+# 4. Dodanie kolumny korzystając z assign
+animal_weight = pd.Series([120, 15, 2, 3, 110])
+zwierzeta2 = zwierzeta.assign(Waga=animal_weight.values)
+
+print(f'Wypisano data frame o nazwie zwierzęta2 + assign \n {zwierzeta2} \n')
+
+# 4b. Dodanie kolumny korzystając z assign
+# zwierzeta2 = zwierzeta.assign(Waga2=(pd.Series(animal_weight, index=['SS', 'PT', 'PL', 'GA', 'RY'])))
+
+# print(f'Wypisano data frame o nazwie zwierzęta2 + assign \n {zwierzeta2} \n')
+
+# 5. Dodanie kolumny wykorzystując słownik z kluczami z istniejącej kolumny
+animal_swimming = {'Tygrys': '35', 'Tukan': '1', 'Żaba': '80',
+                   'Jaszczurka': '25', 'Rekin': '94'}
+zwierzeta2['Plywalnosc'] = animal_swimming.values()
+
+print(f'Wypisano data frame o nazwie zwierzęta2 + słownik z kluczami \n {zwierzeta2} \n')
+
+# 6. Dodanie kolumny wykorzystując apply()
+zwierzeta2['Rating2'] = zwierzeta2.apply(lambda row:
+                                        ((row.Rating + row.Waga + int(row.Plywalnosc))/3), axis=1)
+
+print(f'Wypisano data frame o nazwie zwierzęta2 + apply \n {round(zwierzeta2, 2)} \n')

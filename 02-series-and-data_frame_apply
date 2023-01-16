@@ -1,0 +1,13 @@
+import pandas as pd
+
+df_normal = pd.DataFrame({'Liczb parzyste': [2, 3, 6], 'Liczby nieparzyste': [1, 3, 5]})
+
+
+def kwadrat_liczby(x):
+    return x * x
+
+
+df_changed = df_normal.apply(kwadrat_liczby)
+
+print(f"Ramka [df_normal] przed zastosowaniem apply()\n {df_normal}")
+print(f"Ramka [df_changed] po zastosowaniem apply()\n {df_changed}")

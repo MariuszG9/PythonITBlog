@@ -1,8 +1,8 @@
 ﻿Index;Gatunek;Zwierze;Srodowisko;Cieplota ciala;Rating;Waga;Plywalnosc;Punkty EVS
 SS;Ssaki;Kangur;LWP;stałocieplne;90;66;12;56
 PT;Ptaki;Ara;LWP;stałocieplne;55;1;1;19
-PL;Płazy;Ropucha;WL;zmiennocieplne;22;1;80;34,33333333
-GD;Gady;Żmija;L;zmiennocieplne;66;2;2;23,33333333
+PL;Płazy;Ropucha;WL;zmiennocieplne;22;1;80;34.33333333
+GD;Gady;Żmija;L;zmiennocieplne;66;2;2;23.33333333
 RB;Ryby;Delfin;W;zmiennocieplne;95;290;110;165
-PA;Pajęczaki;Kątnik;L;zmiennocieplne;2;0,53;1;1,176666667
-OW;Owady;Osa;L;zmiennocieplne;3;0,15;1;1,383333333
+PA;Pajęczaki;Kątnik;L;zmiennocieplne;2;0.53;1;1.176666667
+OW;Owady;Osa;L;zmiennocieplne;3;0.15;1;1.383333333

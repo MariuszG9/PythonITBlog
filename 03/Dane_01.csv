@@ -1,0 +1,8 @@
+﻿Index;Gatunek;Zwierze;Srodowisko;Cieplota ciala;Rating;Waga;Plywalnosc;Punkty EVS
+SS;Ssaki;Tygrys;LWP;stałocieplne;12;310;35;119
+PT;Ptaki;Tukan;LWP;stałocieplne;125;6,2;1;44,06666667
+PL;Płazy;Żaba;WL;zmiennocieplne;14;0,6;80;31,53333333
+GD;Gady;Jaszczurka;L;zmiennocieplne;28;2;2;10,66666667
+RB;Ryby;Rekin;W;zmiennocieplne;110;365;110;195
+PA;Pajęczaki;Ptasznik;L;zmiennocieplne;85;2,5;1;29,5
+OW;Owady;Pszczoła;LP;zmiennocieplne;100;0,1;1;33,7

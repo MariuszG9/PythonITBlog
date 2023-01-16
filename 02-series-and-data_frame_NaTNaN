@@ -1,0 +1,44 @@
+# zaimportowanie biblioteki
+import pandas as pd
+import numpy as np
+
+# wyświetlenie większej ilości kolumn
+desired_width = 350
+pd.set_option('display.width', desired_width)
+pd.set_option('display.max_columns', 15)
+
+# tworzymy słownik list
+slownik_zwierzat = {'Gatunek': ['Ssaki',
+                                'Ptaki',
+                                'Płazy',
+                                'Gady',
+                                'Ryby'
+                              ],
+                  'Zwierze': ['Tygrys',
+                              'Tukan',
+                              'Żaba',
+                              'Jaszczurka',
+                              'Rekin'
+                             ]
+                 }
+
+zwierzeta = pd.DataFrame(slownik_zwierzat,
+                         index=['SS', 'PT', 'PL', 'GA', 'RY'],
+                         columns=['Gatunek', 'Srodowisko', 'Zwierze'])
+
+print(f'{zwierzeta}\n')
+
+# Dodanie kolumny korzystając z assign
+animal_weight = pd.Series([120, 15, 2, 3, 110])
+zwierzeta2 = zwierzeta.assign(Waga=animal_weight.values)
+
+print(f'Wypisano data frame o nazwie zwierzęta2 + assign \n {zwierzeta2} \n')
+
+# Dodanie pustej kolumny
+zwierzeta2['Pusta kolumna'] = pd.NaT
+print(f"dane: {zwierzeta2['Pusta kolumna']}")
+
+# Dodanie pustej kolumny2
+zwierzeta2['Pusta kolumna2'] = np.NaN
+print(f"dane: {zwierzeta2['Pusta kolumna2']}")
+

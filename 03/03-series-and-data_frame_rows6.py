@@ -27,3 +27,7 @@ df_outer_indi = pd.merge(lewa, prawa, how='outer', indicator=True)
 print(df_outer_indi)
 print("\n")
 
+# merge złączenie do czegoś
+df_mergeto = lewa.merge(prawa, left_on='klucz', right_on='klucz', how='left')
+print(df_mergeto)
+

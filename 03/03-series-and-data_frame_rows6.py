@@ -30,4 +30,8 @@ print("\n")
 # merge złączenie do czegoś
 df_mergeto = lewa.merge(prawa, left_on='klucz', right_on='klucz', how='left')
 print(df_mergeto)
+print("\n")
 
+# merge z walidacją
+df_mege_valid = lewa.merge(prawa, left_on='klucz', right_on='klucz', how='inner', validate="one_to_one")
+print(df_mege_valid)

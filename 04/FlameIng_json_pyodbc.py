@@ -32,3 +32,9 @@ conn = pyodbc.connect('driver='+driver_xl+';'
                       'database='+database_xl+';'
                       'Trusted_Connection=yes')
 
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM Zwierzeta")
+for row in cursor.fetchall():
+    print(row)
+
+

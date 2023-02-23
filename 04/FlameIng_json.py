@@ -22,6 +22,6 @@ def server_type(server_switch):
 
 
 print(f'Możliwe konfiguracje serwera: \n🔹0-testowy\n🔹1-produkcyjny')
-server_switch= int(input('Podaj cyfrę:'))
-driver, server, database = server_type(server_switch)
-print(f'Nazwa sterownika: {driver}\nNazwa serwera: {server}\nNazwa bazy: {database}')
+server_number = int(input('Podaj cyfrę:'))
+driver_xl, server_xl, database_xl = server_type(server_number)
+print(f'Nazwa sterownika: {driver_xl}\nNazwa serwera: {server_xl}\nNazwa bazy: {database_xl}')

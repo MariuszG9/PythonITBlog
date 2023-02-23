@@ -5,6 +5,7 @@ with open('server_config.json') as sc:
 
 
 def server_type(server_switch):
+    server_connect = None
     server = data['servers']
     if server_switch == 0:
         server_connect = server[0]

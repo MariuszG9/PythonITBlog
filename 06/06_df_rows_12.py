@@ -15,7 +15,7 @@ df_second = pd.read_csv("Dane_02.csv", sep=";")
 # łączenie danych metodą merge xxx
 df_animals = pd.merge(df_first, df_second, how='outer')
 
-# unikalne rekordy
+# uopis ramki
 print(df_animals.describe())
 print("\n")
 print(df_animals.describe(include='all'))
@@ -42,3 +42,13 @@ for i, row in enumerate(df_animals.describe().itertuples()):
     elif i == 7:
         table.add_row(['max'] + list(np.round(row[1:], 2)))
 print(table)
+
+# zaokrąglenie kolumn do dwóch miejsc po przecinku
+df_rounded = df_animals.round(2)
+
+# wyświetlenie wyników opisowych za pomocą PrettyTable
+animal_table = PrettyTable()
+animal_table.field_names = [''] + list(df_animals.describe(include='all').columns)
+for i, row in enumerate(df_animals.describe(include='all').itertuples()):
+    animal_table.add_row([f"{row[0]}"] + [f"{x:.2f}" if isinstance(x, (int, float)) else x for x in row[1:]])
+print(animal_table)

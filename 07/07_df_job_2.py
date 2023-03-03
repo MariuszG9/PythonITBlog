@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 
+fun_decision = True
+
 
 # Funkcja do wczytywania wszystkich ramek będących w folderze
 def load_csv():
@@ -15,7 +17,7 @@ def load_csv():
         # wczytanie pliku csv
         csv_file = os.path.join(path, file + extension)
         if os.path.isfile(csv_file):
-            if '.' in pd.read_csv(csv_file, nrows=1, sep=';', encoding='utf-8', decimal='.').columns.tolist():
+            if '.' in pd.read_csv(csv_file, sep=';', encoding='utf-8', decimal='.').columns.tolist():
                 decimal = '.'
             else:
                 decimal = ','
@@ -29,3 +31,4 @@ def data_frames():
     for var in globals():
         if isinstance(globals()[var], pd.core.frame.DataFrame):
             print(var)
+            print(f'{globals()[var]}\n')

@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from prettytable import PrettyTable
+import numpy as np
 
 fun_decision = True
 desired_width = 350
@@ -43,14 +44,13 @@ def pretty_info():
             df = globals()[var]
             table = PrettyTable()
             null_count = df.isnull().sum().sum()
-            empty_count = (df.applymap(str) == '').sum().sum()
             nan_count = df.isna().sum().sum()
             table.field_names = [''] + list(df.describe(include='all').columns)
             for i, row in enumerate(df.describe(include='all').itertuples()):
                 table.add_row([f"{row[0]}"] + [f"{x:.2f}" if isinstance(x, (int, float)) else x for x in row[1:]])
             print(table)
             print(f"Liczba duplikatów: {df.duplicated().sum()}")
-            print(f"Liczba wartości: NULL = {null_count} | pustych: {empty_count} | NaN: {nan_count}\n")
+            print(f"Liczba wartości: NULL = {null_count} |  NaN: {nan_count}\n")
 
 
 while fun_decision:

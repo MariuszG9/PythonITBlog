@@ -31,7 +31,7 @@ def load_csv():
 
 def data_frames():
     print("Utworzone ramki danych:")
-    for var in list(globals()):
+    for var in globals():
         if isinstance(globals()[var], pd.DataFrame):
             print(var)
             print(f'{globals()[var]}\n')
@@ -69,3 +69,4 @@ while fun_decision:
             fun_decision = False
         else:
             print("Jeszcze raz")
+

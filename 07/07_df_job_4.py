@@ -46,6 +46,7 @@ def pretty_info():
             for i, row in enumerate(df.describe(include='all').itertuples()):
                 table.add_row([f"{row[0]}"] + [f"{x:.2f}" if isinstance(x, (int, float)) else x for x in row[1:]])
             print(table)
+            print(f"Liczba duplikatów: {df.duplicated().sum()}\n")
 
 
 while fun_decision:

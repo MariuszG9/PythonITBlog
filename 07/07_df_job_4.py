@@ -44,13 +44,15 @@ def pretty_info():
             table = PrettyTable()
             table.field_names = [''] + list(df.describe(include='all').columns)
             for i, row in enumerate(df.describe(include='all').itertuples()):
-                table.add_row([f"{row[0]}"] + [f"{x:.2f}" if isinstance(x, (int, float)) else x for x in row[1:]])
+                table.add_row([f"{row[0]}"] + [f"{x:.2f}" if isinstance(x, (int, float))
+                                               else x for x in row[1:]])
             print(table)
             print(f"Liczba duplikatów: {df.duplicated().sum()}\n")
 
 
 while fun_decision:
-    select = int(input(f"Którą funkcję chcesz wywołać?\n🔹Załadowanie ramek danych [1]\n🔹Wypisanie ramek danych [2]"
+    select = int(input(f"Którą funkcję chcesz wywołać?\n🔹Załadowanie ramek danych [1]"
+                       f"\n🔹Wypisanie ramek danych [2]\n🔹Informacje o ramkach [3]"
                        f"\ndecyzja: "))
     if select == 1:
         load_csv()
@@ -70,4 +72,5 @@ while fun_decision:
             fun_decision = False
         else:
             print("Jeszcze raz")
+
 

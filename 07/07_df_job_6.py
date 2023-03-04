@@ -8,6 +8,7 @@ desired_width = 350
 pd.set_option('display.width', desired_width)
 pd.set_option('display.max_columns', 15)
 
+
 # Funkcja do wczytywania wszystkich ramek będących w folderze
 def load_csv():
     path = os.path.dirname(__file__)
@@ -72,5 +73,4 @@ while fun_decision:
             fun_decision = False
         else:
             print("Jeszcze raz")
-
 

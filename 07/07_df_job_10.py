@@ -121,7 +121,7 @@ def remove_column():
 
 
 def rename_column():
-    # Print available dataframes
+    # Wydruk dostępnych ramek
     print("Dostępne ramki danych:")
     dataframes = []
     for var in globals():
@@ -133,7 +133,7 @@ def rename_column():
         table.add_row([i, df])
     print(table)
 
-    # Ask user to select dataframe and column
+    # Uzyskujemy informacje która ramka i kolumna
     df_choice = int(input("Wybierz numer ramki danych: "))
     df_name = dataframes[df_choice]
     df = globals()[df_name]
@@ -146,16 +146,16 @@ def rename_column():
     col_choice = int(input("Wybierz numer kolumny, którą chcesz zmienić nazwę: "))
     old_col_name = columns[col_choice]
 
-    # Ask user to input new column name
+    # Zapytamy o nazwę nowej kolumny
     new_col_name = input("Podaj nową nazwę dla kolumny: ")
 
-    # Rename selected column
+    # zmieniamy nazwę kolumny
     df = df.rename(columns={old_col_name: new_col_name})
 
-    # Update global variable
+    # Aktualizujemy globalną
     globals()[f"{df_name}"] = df
 
-    # Print updated dataframe
+    # Drukujemy nagłówek z ramki
     print(f"\nKolumna {old_col_name} w ramce danych {df_name} zmieniła nazwę na {new_col_name}.\n")
     print(df.head())
 

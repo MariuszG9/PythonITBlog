@@ -1,0 +1,38 @@
+def rename_column():
+    # Wydruk dostępnych ramek
+    print("Dostępne ramki danych:")
+    dataframes = []
+    for var in globals():
+        if isinstance(globals()[var], pd.DataFrame):
+            dataframes.append(var)
+    table = PrettyTable()
+    table.field_names = ["Numer", "Nazwa"]
+    for i, df in enumerate(dataframes):
+        table.add_row([i, df])
+    print(table)
+
+    # Uzyskujemy informacje która ramka i kolumn
+    df_choice = int(input("Wybierz numer ramki danych: "))
+    df_name = dataframes[df_choice]
+    df = globals()[df_name]
+    columns = df.columns.tolist()
+    table = PrettyTable()
+    table.field_names = ["Numer", "Nazwa kolumny"]
+    for i, col in enumerate(columns):
+        table.add_row([i, col])
+    print(table)
+    col_choice = int(input("Wybierz numer kolumny, którą chcesz zmienić nazwę: "))
+    old_col_name = columns[col_choice]
+
+    # Zapytamy o nazwę nowej kolumny
+    new_col_name = input("Podaj nową nazwę dla kolumny: ")
+
+    # zmieniamy nazwę kolumny
+    df.rename(columns={old_col_name: new_col_name}, inplace=True)
+
+    # Drukujemy nagłówek z ramki
+    print(f"\nKolumna {old_col_name} w ramce danych {df_name} zmieniła nazwę na {new_col_name}.\n")
+    print(df.head())
+
+    # Aktualizujemy globalną zmienną df
+    globals()[df_name] = df

@@ -1,0 +1,16 @@
+{
+  "servers": [
+    {
+      "type": "testowy",
+      "DRIVER": "{ODBC Driver 17 for SQL Server}",
+      "SERVER": "PLSIEIT22\\SQLEXPRESS",
+      "DATABASE": "TestDB"
+    },
+    {
+      "type": "produkcyjny",
+      "DRIVER": "{ODBC Driver 17 for SQL Server}",
+      "SERVER": "PLSIEIT22\\SQLEXPRESS",
+      "DATABASE": "ProdDB"
+    }
+  ]
+}

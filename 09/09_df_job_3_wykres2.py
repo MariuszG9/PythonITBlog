@@ -395,7 +395,8 @@ def data_analysis_ppu():
     merged_df_database = pd.read_csv('ramka_wynikowa_eur.csv', sep=";", encoding='utf-8')
 
     fig, ax1 = plt.subplots(figsize=(12, 6))
-    ax2 = ax1.twinx().twiny()
+    ax1
+    ax2 = ax1.twinx()
     ax2.spines['top'].set_visible(False)
     ax2.spines['bottom'].set_visible(False)
     ax2.tick_params(axis='x', which='both', length=0)
@@ -430,8 +431,8 @@ def data_analysis_ppu():
     x = np.arange(len(merged_df_database))
 
     # Ustawienia dla elementów wykresu
-    ax1.bar(x + bar_width / 2, merged_df_database['value'] / 1000, width=bar_width, label='Value', color=colors)
-    ax2.plot(x + bar_width / 2, merged_df_database['price_per_unit'], label='Price per unit', color=price_color)
+    ax1.bar(x + bar_width/2, merged_df_database['value'] / 1000, width=bar_width, label='Value', color=colors)
+    ax2.plot(x + bar_width/2, merged_df_database['price_per_unit'], label='Price per unit', color=price_color)
 
     # Etykiety danych
     for i, v in enumerate(merged_df_database['price_per_unit']):
@@ -447,8 +448,8 @@ def data_analysis_ppu():
     edge_colors[min_index] = '#E81212'  # czerwony
 
     # Dodanie punktów danych
-    ax2.scatter(x + bar_width / 2, merged_df_database['price_per_unit'], linewidth=5, edgecolor=edge_colors, alpha=0.4)
-    ax2.scatter(x + bar_width / 2, merged_df_database['price_per_unit'], color=price_color)
+    ax2.scatter(x + bar_width/2, merged_df_database['price_per_unit'], linewidth=5, edgecolor=edge_colors, alpha=0.4)
+    ax2.scatter(x + bar_width/2, merged_df_database['price_per_unit'], color=price_color)
 
     # Podpisy kategorii na osi x
     ax1.set_xticks(x)
@@ -458,7 +459,7 @@ def data_analysis_ppu():
     # Dodanie zielonej linii dotyczącej ceny średniej
     mean_price = merged_df_database['price_per_unit'].mean()
     ax2.axhline(y=mean_price, color='green', linestyle=':', label='Cena średnia')
-    ax2.text(len(merged_df_database) + 1, mean_price + 0.02, f"{mean_price:.2f}", color='green',
+    ax2.text(len(merged_df_database) + 0.2, mean_price + 0.02, f"{mean_price:.2f}", color='green',
              ha='right', fontsize=12)
 
     # Definicja kolorów dla każdej kategorii
@@ -533,3 +534,5 @@ while fun_decision:
             print("Do zobaczenia")
         else:
             print("Jeszcze raz")
+
+

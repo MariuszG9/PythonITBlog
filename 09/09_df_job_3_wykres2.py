@@ -395,7 +395,10 @@ def data_analysis_ppu():
     merged_df_database = pd.read_csv('ramka_wynikowa_eur.csv', sep=";", encoding='utf-8')
 
     fig, ax1 = plt.subplots(figsize=(12, 6))
-    ax2 = ax1.twinx()
+    ax2 = ax1.twinx().twiny()
+    ax2.spines['top'].set_visible(False)
+    ax2.spines['bottom'].set_visible(False)
+    ax2.tick_params(axis='x', which='both', length=0)
 
     # Ustawienie kolorów
     value_color2 = '#3AB0AA'

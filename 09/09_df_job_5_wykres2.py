@@ -1,4 +1,3 @@
-
 import pandas as pd
 import os
 from matplotlib.lines import Line2D
@@ -403,12 +402,11 @@ def data_analysis_ppu():
     ax2.tick_params(axis='x', which='both', length=0)
 
     # Ustawienie kolorów
-    yellowsub = '#FFD966'
-    green = '#0C6E49'
-    price_color = '#A6A6A6'
+    value_color2 = '#3AB0AA'
+    value_color = '#C7D236'
+    price_color = '#194B49'
     label_color = '#848187'
     white = '#f9f9f9'
-    bleu = '#223D4E'
 
     # Ustawienie grida
     ax1.grid(axis='y', linestyle=':', alpha=0.7, which='major', color='gray', zorder=0)
@@ -426,30 +424,32 @@ def data_analysis_ppu():
     ax2.tick_params(axis='y', colors=label_color)
     ax1.set_facecolor(white)
 
-    def thousand_formatter(x, pos):
-        return f"{x:,.0f}".replace(",", " ")
-
-    formatter = ticker.FuncFormatter(thousand_formatter)
-    ax1.yaxis.set_major_formatter(formatter)
-
     # Ustawienie koloru dla słupków
-    merged_df_database['top3'] = merged_df_database['value'].rank(ascending=False, method='dense') <= 3
-    colors = np.where(merged_df_database['top3'], yellowsub, bleu)
+    colors = np.where(merged_df_database['market'] == 'PL', value_color, value_color2)
 
     bar_width = 1
     x = np.arange(len(merged_df_database))
 
     # Ustawienia dla elementów wykresu
-    ax1.bar(x + bar_width / 2, merged_df_database['value'], width=bar_width, label='Value', color=colors)
-    ax2.plot(x + bar_width / 2, merged_df_database['price_per_unit'], label='Price per unit', color=price_color, linestyle='--', marker='D', markersize=6, linewidth=2)
+    ax1.bar(x + bar_width/2, merged_df_database['value'] / 1000, width=bar_width, label='Value', color=colors)
+    ax2.plot(x + bar_width/2, merged_df_database['price_per_unit'], label='Price per unit', color=price_color)
 
     # Etykiety danych
-    for i, v in enumerate(merged_df_database['value']):
-        value_text = '{:,.0f}'.format(v).replace(',', ' ')
-        ax1.text(i + 0.5, 500, f"{value_text}", ha='center', fontsize=10, color="grey", rotation=90)
+    for i, v in enumerate(merged_df_database['price_per_unit']):
+        ax2.text(i - 0.0, v + 0.02, f"{v:.2f}", color=price_color)
+
+    # Indeks wiersza z maksymalną wartością
+    max_index = merged_df_database['price_per_unit'].idxmax()
+    min_index = merged_df_database['price_per_unit'].idxmin()
+
+    # Stworzenie listy kolorów obramowania punktów danych
+    edge_colors = [price_color] * len(merged_df_database)
+    edge_colors[max_index] = '#BF9000'  # żółty
+    edge_colors[min_index] = '#E81212'  # czerwony
 
     # Dodanie punktów danych
-    ax2.scatter(x + bar_width / 2, merged_df_database['price_per_unit'], color=price_color)
+    ax2.scatter(x + bar_width/2, merged_df_database['price_per_unit'], linewidth=5, edgecolor=edge_colors, alpha=0.4)
+    ax2.scatter(x + bar_width/2, merged_df_database['price_per_unit'], color=price_color)
 
     # Podpisy kategorii na osi x
     ax1.set_xticks(x)
@@ -458,85 +458,31 @@ def data_analysis_ppu():
 
     # Dodanie zielonej linii dotyczącej ceny średniej
     mean_price = merged_df_database['price_per_unit'].mean()
-    ax2.axhline(y=mean_price, color=green, linestyle='-', label='Cena średnia')
-    ax2.text(len(merged_df_database) + 1, mean_price + 0.02, f"{mean_price:.2f}", color=green,
+    ax2.axhline(y=mean_price, color='green', linestyle=':', label='Cena średnia')
+    ax2.text(len(merged_df_database) + 0.2, mean_price + 0.02, f"{mean_price:.2f}", color='green',
              ha='right', fontsize=12)
 
     # Definicja kolorów dla każdej kategorii
-    colors_leg = {'Top 3 wartość': yellowsub, 'Pozostałe dla wartość': bleu,
-                  'Cena jednostkowa': price_color, 'Cena średnia': green}
+    colors_leg = {'Wartość w PL': value_color, 'Wartość w innych': value_color2,
+                  'Cena jednostkowa': price_color, 'Cena średnia': 'green'}
 
     # Tworzenie listy patch'ów i nazw kategorii
     patches = [Patch(facecolor=color, edgecolor='black', label=category)
                if category != 'Cena jednostkowa' and category != 'Cena średnia'
-               else Line2D([0], [0], color=color, label=category, linestyle='--'
-    if category == 'Cena jednostkowa' else '-', marker='D' if category == 'Cena jednostkowa' else None)
+               else Line2D([0], [0], color=color, label=category, linestyle='-'
+                    if category == 'Cena jednostkowa' else ':')
                for category, color in colors_leg.items()]
 
-    # Dodanie legendy do wykresu z listą patchy, w tym marker patch
-    ax1.legend(handles=[patches[0], patches[1], patches[2], patches[3]],
-               loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=4, fontsize=9)
+    # Dodanie legendy do wykresu
+    patches[0].set_visible(True)  # pokaż patch dla drugiej kategorii (Wartość w PL)
+    patches[1].set_visible(True)  # pokaż patch dla drugiej kategorii (Wartość w innych
+    patches[2].set_linestyle('-')  # zmień styl linii dla trzeciej kategorii (Cena jednostkowa)
+    patches[3].set_linestyle(':')  # zmień styl linii dla czwartej kategorii (Cena średnia)
+
+    # Dodanie legendy do wykresu
+    ax1.legend(handles=patches, loc='upper right', fontsize=9)
 
     plt.show()
-
-
-logger = setup_logging('plik_logow.txt')
-
-while fun_decision:
-    selected_option = int(input(f"Którą funkcję chcesz wywołać?\n🔹Załadowanie ramek danych [1]"
-                       f"\n🔹Wypisanie ramek danych [2]\n🔹Informacje o ramkach [3]\n🔹Usuń duplikaty [4]"
-                       f"\n🔹Usuń rekordy z NULL'ami [5]\n🔹Usuń kolumny [6]\n🔹Zmień nazwę kolumny [7]"
-                       f"\n🔹Połącz ramki o masce df_salesman_* [8]\n🔹Dołącz tabelę Salesman [9]"
-                       f"\n🔹Utwórz kolumny [10]\n🔹Wrzuć dane [11]\n🔹Pokaz dane na wykresie: Wartości [12]"
-                       f"\n🔹Pokaz dane na wykresie: Ilość i cena [13]"
-                       f"\nWybierz opcję:  "))
-    if selected_option == 1:
-        df_dict = load_csv()
-    elif selected_option == 2:
-        data_frames(df_dict)
-    elif selected_option == 3:
-        pretty_info(df_dict)
-    elif selected_option == 4:
-        delete_duplicates(df_dict)
-    elif selected_option == 5:
-        delete_nulls(df_dict)
-    elif selected_option == 6:
-        remove_column(df_dict)
-    elif selected_option == 7:
-        rename_column(df_dict)
-    elif selected_option == 8:
-        concat_dataframes(df_dict)
-    elif selected_option == 9:
-        merge_dataframes(df_dict)
-    elif selected_option == 10:
-        create_columns(df_dict)
-    elif selected_option == 11:
-        load_frame(df_dict)
-    elif selected_option == 12:
-        data_analysis()
-    elif selected_option == 13:
-        data_analysis_ppu()
-    elif selected_option == 14:
-        data_filtering(df_dict)
-    elif selected_option == 15:
-        kmeans_analyze()
-    elif selected_option == 16:
-        kmeans_analyze2()
-    elif selected_option == 17:
-        kmeans_analyze3()
-    else:
-        print("Źle wybrano")
-
-    decision = None
-    while decision != 'T' and decision != 'N':
-        decision = input("Nie wybrano żadnej funkcji. Czy chcesz wybrać jeszcze raz? [N/T]: ").upper()
-        if decision == 'T':
-            fun_decision = True
-        elif decision == 'N':
-            fun_decision = False
-            print("Do zobaczenia")
-        else:
-            print("Jeszcze raz")
 
 
 logger = setup_logging('plik_logow.txt')

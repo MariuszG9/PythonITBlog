@@ -612,25 +612,39 @@ def kmeans_analyze3():
 
     # wyświetlenie wykresu punktowego z wartościami oryginalnymi
     fig, ax = plt.subplots()
-    ax.scatter(x_original[:, 0], cluster_df['customerx'], c=labels, cmap='viridis')
+    ax.scatter(x_original[:, 0], cluster_df['customerx'], c=labels, cmap='viridis', s=60)
     ax.set_title('Klasteryzacja na podstawie price_per_unit i customer')
     ax.set_xlabel('price_per_unit')
     ax.set_ylabel('customer')
     cluster_df['new_customer'] = cluster_df['customer'].apply(lambda x: x[:2])
 
     # dodanie etykiet danych do bąbelków
+    # Kod z uzyciem LC [ax.annotate(f"{cluster_df['customer'][i][:2]}", xy=(x_original[i, 0],
+    # cluster_df['customerx'][i]), xytext=(2, 2), textcoords='offset points', fontsize=6, color='gray')
+    # for i in range(len(x_original))]
     for i in range(len(x_original)):
-        ax.annotate(f"{cluster_df['customer'][i]}[{cluster_df['market'][i]}]",
+        ax.annotate(f"{cluster_df['customer'][i][:2]}",
                     xy=(x_original[i, 0], cluster_df['customerx'][i]),
-                    xytext=(5, 0),
+                    xytext=(-4, 4),
                     textcoords='offset points',
-                    fontsize=5,
-                    color='gray')
+                    fontsize=6,
+                    color='black')
 
     # ustawienie zakresów osi na wartości oryginalne
     ax.set_ylim([cluster_df['customerx'].min(), cluster_df['customerx'].max()])
     ax.set_xlim([cluster_df['price_per_unit'].min(), cluster_df['price_per_unit'].max()])
     ax.autoscale()
+
+    # słownik z etykietami klastrów i kolorami
+    cluster_labels = {2: 'Najniższa cena jednostkowa', 0: 'Umiarkowana cena jednostkowa',
+                      1: 'Wysoka cena jednostkowa', 3: 'Bardzo wysoka cena jednostkowa'}
+    cmap = plt.cm.get_cmap('viridis')
+    cluster_colors = {k: cmap(float(k) / (number_of_clusters - 1)) for k in range(number_of_clusters)}
+
+    # dodanie legendy
+    legend_elements = [Line2D([0], [0], marker='o', color='w', label=cluster_labels[k],
+                              markerfacecolor=cluster_colors[k], markersize=10) for k in range(number_of_clusters)]
+    ax.legend(handles=legend_elements, loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=4)
 
     plt.show()
 
